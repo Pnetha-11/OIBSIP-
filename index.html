@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <div class="calculator-container">
+        <h1 class="title">Calculator</h1>
+        <input type="text" class="display" id="display" readonly>
+        
+        <div class="buttons-grid">
+            <button class="btn btn-clear" onclick="clearDisplay()">AC</button>
+            <button class="btn btn-clear" onclick="deleteLast()">DEL</button>
+            <button class="btn btn-operator" onclick="appendToDisplay('/')" data-sound="operator">÷</button>
+            <button class="btn btn-operator" onclick="appendToDisplay('*')" data-sound="operator">×</button>
+            
+            <button class="btn btn-number" onclick="appendToDisplay('7')" data-sound="number">7</button>
+            <button class="btn btn-number" onclick="appendToDisplay('8')" data-sound="number">8</button>
+            <button class="btn btn-number" onclick="appendToDisplay('9')" data-sound="number">9</button>
+            <button class="btn btn-operator" onclick="appendToDisplay('-')" data-sound="operator">−</button>
+            
+            <button class="btn btn-number" onclick="appendToDisplay('4')" data-sound="number">4</button>
+            <button class="btn btn-number" onclick="appendToDisplay('5')" data-sound="number">5</button>
+            <button class="btn btn-number" onclick="appendToDisplay('6')" data-sound="number">6</button>
+            <button class="btn btn-operator" onclick="appendToDisplay('+')" data-sound="operator">+</button>
+            
+            <button class="btn btn-number" onclick="appendToDisplay('1')" data-sound="number">1</button>
+            <button class="btn btn-number" onclick="appendToDisplay('2')" data-sound="number">2</button>
+            <button class="btn btn-number" onclick="appendToDisplay('3')" data-sound="number">3</button>
+            <button class="btn btn-equals" onclick="calculateResult()" rowspan="2">=</button>
+            
+            <button class="btn btn-number btn-zero" onclick="appendToDisplay('0')" data-sound="number">0</button>
+            <button class="btn btn-number" onclick="appendToDisplay('.')" data-sound="number">.</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
