@@ -3,39 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Beautiful To-Do App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="particles"></div>
-    
-    <div class="calculator-container">
-        <h1 class="title">Calculator</h1>
-        <input type="text" class="display" id="display" readonly>
-        
-        <div class="buttons-grid">
-            <button class="btn btn-clear" onclick="clearDisplay()">AC</button>
-            <button class="btn btn-clear" onclick="deleteLast()">DEL</button>
-            <button class="btn btn-operator" onclick="appendToDisplay('/')" data-sound="operator">÷</button>
-            <button class="btn btn-operator" onclick="appendToDisplay('*')" data-sound="operator">×</button>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">
+                <i class="fas fa-tasks"></i>
+                My Tasks
+            </h1>
+            <p class="subtitle">Stay organized and productive with your daily tasks</p>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number pending" id="pendingCount">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number completed" id="completedCount">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <!-- Add Task Section -->
+        <div class="card add-task-section">
+            <h2 class="section-title">
+                <i class="fas fa-plus"></i>
+                Add New Task
+            </h2>
+            <div class="add-task-form">
+                <input type="text" id="newTaskInput" placeholder="What do you need to do?" class="task-input">
+                <button id="addTaskBtn" class="add-btn">
+                    <i class="fas fa-plus"></i>
+                    Add Task
+                </button>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="card search-filter-section">
+            <div class="search-filter-form">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search tasks..." class="search-input">
+                </div>
+                <div class="filter-container">
+                    <i class="fas fa-filter filter-icon"></i>
+                    <select id="filterSelect" class="filter-select">
+                        <option value="all">All Tasks</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tasks List -->
+        <div class="card tasks-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="sectionTitle">All Tasks</span>
+                    <span class="task-count" id="taskCount">(0)</span>
+                </h2>
+            </div>
             
-            <button class="btn btn-number" onclick="appendToDisplay('7')" data-sound="number">7</button>
-            <button class="btn btn-number" onclick="appendToDisplay('8')" data-sound="number">8</button>
-            <button class="btn btn-number" onclick="appendToDisplay('9')" data-sound="number">9</button>
-            <button class="btn btn-operator" onclick="appendToDisplay('-')" data-sound="operator">−</button>
-            
-            <button class="btn btn-number" onclick="appendToDisplay('4')" data-sound="number">4</button>
-            <button class="btn btn-number" onclick="appendToDisplay('5')" data-sound="number">5</button>
-            <button class="btn btn-number" onclick="appendToDisplay('6')" data-sound="number">6</button>
-            <button class="btn btn-operator" onclick="appendToDisplay('+')" data-sound="operator">+</button>
-            
-            <button class="btn btn-number" onclick="appendToDisplay('1')" data-sound="number">1</button>
-            <button class="btn btn-number" onclick="appendToDisplay('2')" data-sound="number">2</button>
-            <button class="btn btn-number" onclick="appendToDisplay('3')" data-sound="number">3</button>
-            <button class="btn btn-equals" onclick="calculateResult()" rowspan="2">=</button>
-            
-            <button class="btn btn-number btn-zero" onclick="appendToDisplay('0')" data-sound="number">0</button>
-            <button class="btn btn-number" onclick="appendToDisplay('.')" data-sound="number">.</button>
+            <div class="tasks-container" id="tasksContainer">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <p class="empty-message">No tasks yet. Add one above!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="card progress-section" id="progressSection" style="display: none;">
+            <div class="progress-header">
+                <span class="progress-label">Overall Progress</span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Task</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="editTaskInput" class="task-input">
+            </div>
+            <div class="modal-footer">
+                <button id="saveEditBtn" class="save-btn">
+                    <i class="fas fa-check"></i>
+                    Save
+                </button>
+                <button id="cancelEditBtn" class="cancel-btn">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 
